@@ -1,5 +1,7 @@
-import csv
-import sqlite3
+import csv, sqlite3
+from fileinput import filename
+from datetime import date
+
 
 class ReportGenerator:
   def __init__(self, connection, escape_string="(%s)"):
@@ -18,22 +20,22 @@ class ReportGenerator:
     return self.report_text
 
 if __name__ == "__main__":
-    file = input()
+    filename = input()
     sqlite_con = sqlite3.connect(":memory:", detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
     cur = sqlite_con.cursor()
     cur.execute('''CREATE TABLE polaczenia (from_subscriber data_type INTEGER, 
-                  to_subscriber data_type INTEGER, 
-                  datetime data_type timestamp, 
-                  duration data_type INTEGER , 
-                  celltower data_type INTEGER);''')
+                    to_subscriber data_type INTEGER, 
+                    datetime data_type timestamp, 
+                    duration data_type INTEGER , 
+                    celltower data_type INTEGER);''') 
 
 
-    with open(file, 'r') as fin:
+    with open(filename, 'r') as fin:
         reader = csv.reader(fin, delimiter=",")
         #headers = next(reader)
         next(reader, None)  
         rows = [x for x in reader]
-        cur.executemany("INSERT INTO polaczenia (from_subscriber, to_subscriber, datetime, duration , celltower) VALUES ( ?, ?, ?, ?, ?);", rows)
+        cur.executemany("INSERT INTO polaczenia (from_subscriber, to_subscriber, datetime, duration , celltower) VALUES (?, ?, ?, ?, ?);", rows)
         sqlite_con.commit()
 
         reportGenerator = ReportGenerator(sqlite_con, escape_string="?")
