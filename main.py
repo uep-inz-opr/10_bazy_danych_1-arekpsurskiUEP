@@ -29,8 +29,8 @@ if __name__ == "__main__":
 
     with open(file, 'r') as fin:
         reader = csv.reader(fin, delimiter=",")
-        headers = next(reader)
-        #next(reader, None)  
+        #headers = next(reader)
+        next(reader, None)  
         rows = [x for x in reader]
         cur.executemany("INSERT INTO polaczenia (from_subscriber, to_subscriber, datetime, duration , celltower) "
                         "VALUES ( ?, ?, ?, ?, ?);", rows)
