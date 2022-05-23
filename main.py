@@ -37,5 +37,6 @@ if __name__ == "__main__":
                         "VALUES ( ?, ?, ?, ?, ?);", rows)
         sqlite_con.commit()
 
-        ReportGenerator(sqlite_con, escape_string="?").generate_report()
-        print(ReportGenerator(sqlite_con, escape_string="?").get_report())
+        reportGenerator = ReportGenerator(sqlite_con, escape_string="?")
+        reportGenerator.generate_report()
+        print(reportGenerator.get_report())
