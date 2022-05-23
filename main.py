@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
 
     with open(filename, 'r') as fin:
-        reader = csv.reader(fin, delimiter=",")
+        reader = csv.reader(fin, delimiter=";")
         #headers = next(reader)
         next(reader, None)  
         rows = [x for x in reader]
