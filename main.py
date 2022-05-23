@@ -2,7 +2,7 @@ import csv
 import sqlite3
 
 class ReportGenerator:
-  def __init__(self,connection, escape_string = "(%s)"):
+  def __init__(self, connection, escape_string="(%s)"):
     self.connection = connection
     self.report_text = None
     self.escape_string = escape_string
@@ -14,7 +14,7 @@ class ReportGenerator:
     result = cursor.fetchone()[0]
     self.report_text = result
 
-  def get_report(self): 
+  def get_report(self):
     return self.report_text
 
 if __name__ == "__main__":
@@ -33,8 +33,7 @@ if __name__ == "__main__":
         #headers = next(reader)
         next(reader, None)  
         rows = [x for x in reader]
-        cur.executemany("INSERT INTO polaczenia (from_subscriber, to_subscriber, datetime, duration , celltower) "
-                        "VALUES ( ?, ?, ?, ?, ?);", rows)
+        cur.executemany("INSERT INTO polaczenia (from_subscriber, to_subscriber, datetime, duration , celltower) VALUES ( ?, ?, ?, ?, ?);", rows)
         sqlite_con.commit()
 
         reportGenerator = ReportGenerator(sqlite_con, escape_string="?")
